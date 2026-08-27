@@ -1,0 +1,63 @@
+@page {
+  /* Chromium's headless CLI uses Letter as its deterministic print size. */
+  size: Letter;
+  margin: 18mm 16mm 20mm;
+}
+
+body {
+  color: #202124;
+  font-family: "DejaVu Sans", Arial, sans-serif;
+  font-size: 10pt;
+  line-height: 1.42;
+}
+
+h1 {
+  border-bottom: 2px solid #1a73e8;
+  font-size: 22pt;
+  margin-bottom: 18pt;
+}
+
+h2 {
+  border-bottom: 1px solid #dadce0;
+  font-size: 15pt;
+  margin-top: 20pt;
+}
+
+h3 {
+  color: #174ea6;
+  font-size: 12pt;
+  margin-top: 15pt;
+}
+
+table {
+  border-collapse: collapse;
+  font-size: 8.5pt;
+  margin: 10pt 0 14pt;
+  width: 100%;
+}
+
+th,
+td {
+  border: 1px solid #dadce0;
+  padding: 5pt 6pt;
+  vertical-align: top;
+}
+
+th {
+  background: #e8f0fe;
+  font-weight: 700;
+}
+
+tr {
+  break-inside: avoid;
+}
+
+code {
+  background: #f1f3f4;
+  padding: 1pt 3pt;
+}
+
+a {
+  color: #174ea6;
+  overflow-wrap: anywhere;
+}

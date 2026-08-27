@@ -1,0 +1,106 @@
+name: Documentation
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+    tags: ["v*.*.*"]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: docs-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Install document tooling
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y pandoc poppler-utils fonts-dejavu chromium
+
+      - name: Check documentation
+        run: python3 scripts/check_docs.py --online
+
+      - name: Build PDF and source archive
+        env:
+          RELEASE_TAG: ${{ github.ref_type == 'tag' && github.ref_name || 'unreleased' }}
+        run: |
+          set -euo pipefail
+          mkdir -p dist/build
+          pandoc docs/decision-report.md \
+            --from=gfm \
+            --standalone \
+            --metadata="title=Local inference for small teams" \
+            --css=docs/report.css \
+            --output=dist/build/report.html
+          chromium --headless --no-sandbox --disable-gpu \
+            --no-pdf-header-footer \
+            --print-to-pdf="$(pwd)/dist/hw_inference-${RELEASE_TAG}.pdf" \
+            "file://$(pwd)/dist/build/report.html"
+          tar --sort=name --owner=0 --group=0 --mtime='UTC 1970-01-01' \
+            -czf "dist/hw_inference-${RELEASE_TAG}-sources.tar.gz" \
+            README.md docs/
+          sha256sum "dist/hw_inference-${RELEASE_TAG}.pdf" \
+            "dist/hw_inference-${RELEASE_TAG}-sources.tar.gz" > dist/SHA256SUMS
+
+      - name: Verify PDF
+        env:
+          RELEASE_TAG: ${{ github.ref_type == 'tag' && github.ref_name || 'unreleased' }}
+        run: |
+          set -euo pipefail
+          pdf="dist/hw_inference-${RELEASE_TAG}.pdf"
+          pages=$(pdfinfo "$pdf" | awk '/^Pages:/{print $2}')
+          test "${pages:-0}" -gt 0
+          pdftotext "$pdf" - | grep -Fq "Executive summary"
+          pdftotext "$pdf" - | grep -Fq "Weighted decision matrix"
+          sha256sum -c dist/SHA256SUMS
+
+      - name: Upload CI artifact
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: hw_inference-${{ github.sha }}
+          path: |
+            dist/*.pdf
+            dist/*.tar.gz
+            dist/SHA256SUMS
+
+  release:
+    if: github.ref_type == 'tag'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Check out tagged source
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Download release artifacts
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: hw_inference-${{ github.sha }}
+          path: dist
+
+      - name: Validate tag
+        run: |
+          test "${GITHUB_REF_NAME}" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$
+          test "$(git rev-parse HEAD)" = "${GITHUB_SHA}"
+
+      - name: Publish GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh release create "$GITHUB_REF_NAME" \
+            dist/hw_inference-*.pdf \
+            dist/hw_inference-*-sources.tar.gz \
+            dist/SHA256SUMS \
+            --verify-tag \
+            --title "$GITHUB_REF_NAME" \
+            --generate-notes
