@@ -22,6 +22,8 @@ REPORT_REQUIRED = (
     "### Quote-ready shortlist under €9,000",
     "#### Purchase gate",
     "#### Quote request template",
+    "### Model catalog for the pilot",
+    "### Governance and tool permissions",
 )
 
 
@@ -53,6 +55,26 @@ def check_required_content(errors: list[str]) -> None:
     for candidate in ("A — CUDA performance", "B — lower-cost pilot", "C — compact alternative"):
         if candidate not in shortlist:
             errors.append(f"decision-report.md: missing shortlist candidate {candidate!r}")
+
+    for marker in (
+        "GitHub Copilot Business",
+        "Cursor Teams Standard",
+        "Claude Team",
+        "Codex / GPT-5.3-Codex API",
+        "Local OpenAI-compatible stack",
+        "Qwen3-Coder-30B-A3B-Instruct",
+        "Qwen3-Coder-Next",
+        "GPT-5.3-Codex",
+    ):
+        if marker not in report:
+            errors.append(f"decision-report.md: missing catalog entry {marker!r}")
+
+    for marker in ("file read/write scope", "network access", "audit logs"):
+        if marker.lower() not in report.lower():
+            errors.append(f"decision-report.md: missing governance marker {marker!r}")
+
+    if "## Model catalog" not in sources:
+        errors.append("sources.md: missing model catalog section")
 
 
 def _euro_values(text: str) -> list[float]:

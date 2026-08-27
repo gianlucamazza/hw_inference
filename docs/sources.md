@@ -42,10 +42,22 @@ where the source exposes them. Retail prices and availability are volatile.
 | --- | --- | --- |
 | [GitHub Copilot plans](https://docs.github.com/en/copilot/get-started/plans) | Business $19/user/month; Enterprise $39/user/month; included credits | Official documentation |
 | [GitHub Copilot billing](https://docs.github.com/en/billing/concepts/product-billing/github-copilot-billing) | AI credits are usage-based; 1 credit equals $0.01 | Official documentation |
+| [GitHub Copilot plans and features](https://github.com/features/copilot/plans) | Current plan surfaces include chat, agent mode, code review, cloud agent and CLI | Official product page; volatile |
 | [Cursor team pricing](https://prod.cursor.com/docs/account/teams/pricing) | Standard $40/user/month; Premium $120/user/month | Official documentation |
+| [Cursor models and pricing](https://prod.cursor.com/docs/models-and-pricing) | Per-seat included usage, on-demand usage, Cursor models and third-party model billing | Official documentation; volatile |
 | [Cursor pricing update](https://cursor.com/blog/teams-pricing-june-2026) | Annual prices $32/$96 and Premium 5× allowance | Official product announcement |
+| [Claude pricing](https://claude.com/pricing) | Team Standard $20 annual/$25 monthly; Premium $100 annual/$125 monthly; Claude Code included | Official product page; volatile |
+| [Claude Code cost management](https://code.claude.com/docs/en/costs) | API token billing and pilot-based cost measurement guidance | Official documentation |
 | [OpenAI Codex pricing](https://chatgpt.com/codex/pricing/) | Codex is included in ChatGPT plan families, with plan-specific limits | Official pricing page |
 | [OpenAI flexible pricing for teams](https://openai.com/index/codex-flexible-pricing-for-teams/) | Business annual price announced at $20/user/month and usage-based options | Official product announcement; policy may change |
+
+## Model catalog
+
+| Source | Claim used | Classification |
+| --- | --- | --- |
+| [Qwen3-Coder-30B-A3B-Instruct model card](https://huggingface.co/Qwen/Qwen3-Coder-30B-A3B-Instruct) | 30.5B total / 3.3B active, 256K context, Apache-2.0, agentic coding support | Official model card |
+| [Qwen3-Coder-Next model card](https://huggingface.co/Qwen/Qwen3-Coder-Next) | 80B total / 3B active, 256K context, Apache-2.0, local coding-agent focus | Official model card |
+| [GPT-5.3-Codex model page](https://developers.openai.com/api/docs/models/gpt-5.3-codex) | Coding-optimized model, 400K context, function calling, $1.75/$14 per 1M tokens | Official OpenAI documentation |
 
 ## Evidence policy
 
@@ -57,6 +69,10 @@ where the source exposes them. Retail prices and availability are volatile.
   purchase price.
 - No throughput number is treated as an acceptance result until measured on the
   target models, context lengths and concurrency.
+- Model-card capabilities, context windows and parameter counts are declarations,
+  not proof of quality, usable memory fit or agent reliability.
+- A tool comparison must record execution surface, permissions, data boundary,
+  billing path and human approval points, not only subscription price.
 - BOM totals are planning ranges, not purchase orders. A quote is required for
   the final seller, warranty, delivery date and VAT treatment.
 - Energy TCO uses an explicit €0.30/kWh assumption and must be recalculated with

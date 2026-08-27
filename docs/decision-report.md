@@ -284,17 +284,61 @@ the user interface.
 
 ### Coding tools
 
-| Tool | Current public team price | Strength | Main caution |
-| --- | ---: | --- | --- |
-| GitHub Copilot Business | $19/user/month | Low-friction IDE/GitHub integration | Advanced usage consumes AI credits |
-| GitHub Copilot Enterprise | $39/user/month | Enterprise controls and repository context | Requires the wider GitHub enterprise setup |
-| Cursor Teams Standard | $40/user/month monthly, $32 annual | AI-first IDE, team administration and analytics | Usage beyond included allowance is metered |
-| Cursor Teams Premium | $120/user/month monthly, $96 annual | Five times the Standard usage allowance | Expensive for every seat; reserve for power users |
-| ChatGPT Business with Codex | Codex included; annual Business price announced at $20/user/month | Managed agentic coding and collaboration | Limits and additional-credit rules must be checked before rollout |
+The relevant distinction is not only model quality but also where the agent runs
+and what it may do. Inline completion, interactive agent mode, terminal agents
+and asynchronous cloud agents have different privacy, approval and cost
+profiles.
+
+| Tool | Current public team price | Execution surface | Strength | Main caution |
+| --- | ---: | --- | --- | --- |
+| GitHub Copilot Business | $19/user/month | IDE, CLI, GitHub and cloud agent | Low-friction GitHub workflow with organization controls | AI credits and agent usage must be budgeted; verify current self-serve availability |
+| GitHub Copilot Enterprise | $39/user/month or contract terms | Enterprise GitHub and agent surfaces | Repository context, policy and enterprise integration | Requires the wider GitHub Enterprise setup |
+| Cursor Teams Standard | $40/user/month | AI-first IDE, cloud agents and Bugbot | Strong interactive agent workflow and team analytics | Included usage is per seat; on-demand usage is extra |
+| Cursor Teams Premium | $120/user/month | Same surfaces with 5x Standard usage | Suitable for identified agent power users | Do not assign to every developer by default |
+| Claude Team | $20/user/month annual, $25 monthly | Claude Code terminal/IDE plus Claude apps | Strong terminal-oriented agent workflow and SSO | Usage limits apply; API/programmatic usage has separate cost rules |
+| Codex / GPT-5.3-Codex API | Token-priced; GPT-5.3-Codex $1.75/$14 per 1M input/output tokens | Codex and Responses API | Coding-optimized agent model with function calling | API cost is usage-based and not equivalent to a seat subscription |
+| Local OpenAI-compatible stack | Hardware + operations | Ollama/vLLM behind gateway and local IDE client | Data stays inside the declared boundary and provider can be changed | Team must operate updates, auth, model policy, logs and recovery |
 
 For a small team, start with one managed coding-tool standard and a local model
 endpoint for sensitive code or documents. Avoid paying premium seats for every
-developer; identify power users from usage data first.
+developer; identify power users from usage data first. Treat cloud agents as a
+separate data-flow and cost decision, even when bundled into the same product.
+
+### Model catalog for the pilot
+
+The following catalog separates vendor declarations from measurements. Context
+length and parameter count do not predict coding quality or usable throughput by
+themselves; every candidate must be tested with the selected runtime,
+quantization, repository and concurrency.
+
+| Model | Deployment | Declared profile | Practical pilot role | Gate before adoption |
+| --- | --- | --- | --- | --- |
+| Qwen3-Coder-30B-A3B-Instruct | Local, open weights | 30.5B total / 3.3B active; 256K native context; Apache-2.0 | First local agent candidate for a 32 GB GPU | Validate tool calling, quantized memory use and repo-level fixes |
+| Qwen3-Coder-Next | Local, open weights | 80B total / 3B active; 256K context; Apache-2.0 | Capacity-oriented agent candidate for larger-memory systems | Validate actual quantization, runtime support and long-context latency |
+| GPT-5.3-Codex | Cloud/API | Coding-optimized; 400K context; function calling; $1.75/$14 per 1M input/output tokens | Managed quality reference for agentic coding | Track tokens, tool calls, data policy and monthly spend |
+| Claude models through Claude Code | Cloud/API | Model and limits depend on plan or API route | Managed terminal-agent comparison | Record selected model, plan, usage limit and API/subscription path |
+
+The local baseline should begin with Qwen3-Coder-30B-A3B-Instruct on the
+recommended GPU. Qwen3-Coder-Next belongs in the larger-memory or cloud phase;
+its low active-parameter count does not remove the memory cost of its total
+weights and KV cache.
+
+### Governance and tool permissions
+
+Every managed or local agent must have a declared policy for:
+
+- file read/write scope and excluded paths such as secrets, credentials and production data;
+- terminal commands requiring approval versus commands allowed automatically;
+- network access, domains, package installation and external tool calls;
+- Git operations, branch protection and whether an agent may create or merge a PR;
+- model/provider routing, fallback behavior and whether prompts may leave the local boundary;
+- token, seat, cloud-GPU and on-demand usage budgets;
+- audit logs, retention, deletion and incident response.
+
+The default policy is read-only inspection first, explicit approval for writes,
+network and destructive commands, no production credentials, and mandatory human
+review before merge or deployment. A tool being available through an IDE or MCP
+does not make it approved for unrestricted use.
 
 ## Pilot and acceptance criteria
 
