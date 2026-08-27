@@ -40,7 +40,7 @@ length, requests/day and acceptable latency before a large hardware purchase.
 | Entry | RTX 5060 Ti 16 GB, 64 GB RAM, 1–2 TB NVMe | 7B–14B quantized models, embeddings, light RAG | Cheapest useful local pilot |
 | Recommended | RTX 5090 32 GB, 128 GB RAM, 2–4 TB NVMe | Fast coding assistant, 7B–30B models, image workloads | Best speed/flexibility balance |
 | Capacity | RTX PRO 6000 Blackwell 96 GB, 128–256 GB RAM | 70B quantized models, larger context, more concurrency | Memory is the proven bottleneck |
-| Compact capacity | DGX Spark 128 GB or Mac Studio M5 Ultra | Larger quantized models, quiet low-power workstation | Capacity matters more than token speed |
+| Compact capacity | DGX Spark 128 GB or Mac Studio M5 Ultra | Larger quantized models, quiet low-power workstation | Compare availability and software ecosystem separately |
 
 ### Hardware evidence and pricing
 
@@ -70,13 +70,75 @@ exclude monitor, software subscriptions, labor, VAT recovery and financing.
 | BOM | GPU / accelerator | Supporting hardware | Estimated capex | Best use |
 | --- | ---: | ---: | ---: | --- |
 | Entry pilot | €680–€1,055 | €900–€1,500 | **€1,600–€2,600** | 7B–14B, one active user |
-| Recommended | €4,240–€5,230 | €2,000–€3,500 | **€6,200–€8,700** | Fast coding/RAG, 1–2 active users |
+| Recommended | €4,240–€5,230 | €2,000–€3,500 | **€6,300–€8,800** | Fast coding/RAG, 1–2 active users |
 | Capacity | €14,890–€16,100 GPU; €4,000–€7,000 workstation | included | **€19,000–€23,000** | 70B, larger context, concurrency |
 | Compact | €4,800–€5,700 DGX Spark; €6,699+ M5 Ultra | integrated | **€4,900–€7,000** | Quiet, memory-heavy local inference |
 
 The entry GPU range uses current Italian 16 GB RTX 5060 Ti/5070 Ti observations.
 The recommended and capacity ranges use current Italian/EU price-comparison
 signals. Confirm seller, warranty, delivery and invoice treatment before ordering.
+
+### Component-level BOM
+
+Prices below are planning ranges. GPU and complete-system prices are observed
+market signals; supporting components are explicitly marked as estimates until a
+seller quote is obtained.
+
+| BOM | GPU / accelerator | CPU + motherboard | RAM | NVMe | PSU + case + cooling | UPS/network | Total |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| Entry pilot | €680–€1,055 observed | €350–€550 stima | €120–€220 stima | €80–€150 stima | €250–€380 stima | €120–€250 stima | **€1,600–€2,600** |
+| Recommended | €4,240–€5,230 observed | €700–€1,100 stima | €350–€650 stima | €180–€350 stima | €700–€1,200 stima | €150–€300 stima | **€6,300–€8,800** |
+| Capacity | €14,890–€16,100 observed | €4,000–€7,000 stima workstation | included | included | included | included | **€19,000–€23,000** |
+| DGX Spark | €4,800–€5,700 observed | integrated | integrated | integrated | integrated | €100–€250 stima | **€4,900–€6,000** |
+| M5 Ultra | €6,699+ official starting price | integrated | integrated | integrated | integrated | €100–€250 stima | **€6,800+** |
+
+All observed retail prices are treated as VAT-inclusive unless the source says
+otherwise. Supporting-component estimates are not purchase quotes. The final
+order must record seller, SKU, delivery date, warranty, VAT treatment and total
+landed cost.
+
+### Price and evidence status
+
+| Option | Price basis | IVA/shipping | Availability at snapshot | Evidence confidence | Procurement action |
+| --- | --- | --- | --- | --- | --- |
+| RTX 5060 Ti 16 GB | Italian comparison from ~€680 | VAT included in displayed offer | Offer-dependent | Medium | Request one complete-system quote |
+| RTX 5090 32 GB | Italian comparison ~€4,240–€5,230 | VAT included; shipping varies | Offer-dependent | Medium | Do not buy without warranty and power check |
+| RTX PRO 6000 96 GB | EU comparison from ~€14,890 | Shipping included in lowest displayed offer | Offers listed | Medium | Obtain OEM workstation quote |
+| DGX Spark | NVIDIA Italy €4,800 | Official listing | Out of stock at check | High for spec, medium for price | Confirm authorized-channel delivery |
+| Mac Studio M5 Ultra | Apple Italy from €6,699 | Official Italian price | Delivery announced from 22 Sep 2026 | High for starting price | Price the required memory/storage tier |
+
+The evidence confidence describes the purchase signal, not the technical
+capability: an official specification can be high-confidence while a live
+retailer price remains volatile.
+
+### Weighted decision matrix
+
+The default weighting reflects coding + RAG for a small team: performance 25%,
+memory 20%, price 20%, software ecosystem 15%, power 10%, reliability 5% and
+expandability 5%. Scores are 1–5 and are directional, not benchmark results.
+
+| Option | Performance | Memory | Price | Software | Power | Reliability | Expandability | Weighted score / 100 |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| RTX 5060 Ti | 2 | 2 | 5 | 5 | 4 | 3 | 4 | 68 |
+| RTX 5090 | 5 | 3 | 2 | 5 | 2 | 3 | 4 | **71** |
+| RTX PRO 6000 | 4 | 5 | 1 | 5 | 2 | 5 | 3 | **71** |
+| DGX Spark | 2 | 5 | 3 | 4 | 5 | 4 | 1 | 69 |
+| Mac Studio M5 Ultra | 3 | 5 | 2 | 3 | 5 | 4 | 1 | 67 |
+
+The score does not override hard gates. RTX 5090 wins the speed-oriented pilot;
+RTX PRO 6000 wins when 70B capacity or sustained multi-user service is a hard
+requirement. DGX Spark and Mac Studio are alternatives when unified memory,
+noise and power matter more than CUDA throughput.
+
+### Final selection guide
+
+| Choose | If | Do not choose if | Next action |
+| --- | --- | --- | --- |
+| RTX 5060 Ti | Budget pilot and models stay below 14B | Long context or more than one active user is required | Buy only as a time-boxed pilot |
+| RTX 5090 workstation | Fast coding/RAG and CUDA are priorities | 70B must run in one GPU or 24/7 thermals cannot be managed | Request a complete EU build quote |
+| RTX PRO 6000 | 70B, context headroom or concurrency is proven | Workload is occasional or budget is below ~€19k | Request OEM quote and support terms |
+| DGX Spark | Compact, quiet 128 GB system is preferred | Stock is unavailable or high decode speed is required | Confirm authorized-channel delivery |
+| Mac Studio M5 Ultra | Unified memory, quiet operation and Apple ecosystem matter | CUDA-only tooling or modular GPU upgrades are required | Price exact memory/storage configuration |
 
 ### Recommended workstation bill of materials
 
@@ -136,7 +198,7 @@ Runpod currently lists an RTX 5090 reference rate around $0.99/hour in its
 server-cost guide. That is approximately $238/month at 8 hours/day or
 $713/month continuously, before storage, egress and tax. Actual availability,
 region and spot/reserved terms can change the result. A local 5090 BOM at
-€6,200–€8,700 therefore needs sustained utilization and privacy value to beat
+€6,300–€8,800 therefore needs sustained utilization and privacy value to beat
 cloud on total cost; the break-even point cannot be declared without a real
 usage profile and exchange/tax treatment.
 
