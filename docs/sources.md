@@ -1,8 +1,8 @@
 # Sources and verification log
 
 **Checked:** 2026-08-27  
-**Currency:** prices are source-currency references; EU VAT, delivery, exchange
-rates and regional stock are not included unless stated.
+**Currency:** prices are source-currency references; VAT and delivery are stated
+where the source exposes them. Retail prices and availability are volatile.
 
 ## Hardware
 
@@ -10,11 +10,13 @@ rates and regional stock are not included unless stated.
 | --- | --- | --- |
 | [NVIDIA RTX PRO 6000 datasheet](https://www.nvidia.com/content/dam/en-zz/Solutions/design-visualization/quadro-product-literature/workstation-datasheet-blackwell-rtx-pro6000-x-nvidia-us-3519208-web.pdf) | 96 GB memory and 1.8 TB/s bandwidth | Official specification |
 | [NVIDIA DGX Spark announcement](https://nvidianews.nvidia.com/_gallery/download_pdf/68ed8e343d633239c8c8a051/) | 128 GB unified memory and compact local inference platform | Official announcement |
-| [Apple Mac Studio announcement](https://www.apple.com/newsroom/2025/03/apple-unveils-new-mac-studio-the-most-powerful-mac-ever/) | M4 Max up to 128 GB unified memory | Official announcement |
-| [Apple Mac Studio specifications](https://www.apple.com/mac-studio/specs/) | Memory and bandwidth configuration details | Official specification |
-| [Apple US Mac Studio store](https://www.apple.com/us/shop/buy-mac/mac-studio/12-core-cpu-30-core-gpu-16-core-neural-engine-32gb-memory-512gb) | $1,999 base reference configuration | Official store price; US only |
-| [Tom’s Hardware: DGX Spark price increase](https://www.tomshardware.com/desktops/mini-pcs/nvidia-dgx-spark-gets-18-percent-price-increase-as-memory-shortages-bite-founders-edition-now-usd4-699-up-from-usd3-999) | Reported increase from $3,999 to $4,699 | Secondary market report |
-| [TechRadar: RTX 5090 street pricing](https://www.techradar.com/pro/nvidia-rtx-5090-gpus-are-so-expensive-that-intels-arc-pro-b70-is-now-a-genuine-bargain-for-ai) | Street price materially above $1,999 launch MSRP | Secondary market report |
+| [NVIDIA DGX Spark Italy marketplace](https://marketplace.nvidia.com/it-it/enterprise/personal-ai-supercomputers/dgx-spark/) | €4,800, 128 GB unified memory, 4 TB NVMe; out of stock at check | Official Italian marketplace; volatile |
+| [Idealo Italy DGX Spark](https://www.idealo.it/confronta-prezzi/208146353/nvidia-dgx-spark-founders-edition-940-54242-0005-000.html) | €5,699 reference offer, delivery excluded | EU price comparison; volatile |
+| [Apple Mac Studio M5 announcement Italy](https://images.apple.com/it/newsroom/2026/08/apple-introduces-new-mac-studio-with-m5-max-and-m5-ultra/) | M5 Max from €3,049; M5 Ultra from €6,699; delivery from 22 September | Official announcement |
+| [Trovaprezzi RTX 5060 Ti 16 GB](https://www.trovaprezzi.it/prezzo_schede-grafiche_nvidia_geforce_rtx_5060_ti_16gb.aspx) | Italian 16 GB offers from approximately €680 | Italian price comparison; volatile |
+| [Trovaprezzi RTX 5070 Ti 16 GB](https://www.trovaprezzi.it/prezzo_schede-grafiche_rtx_5070_ti_16.aspx) | Italian 16 GB offers from approximately €1,017 | Italian price comparison; volatile |
+| [Trovaprezzi RTX 5090 32 GB](https://www.trovaprezzi.it/prezzo_schede-grafiche_rtx_5090_32.aspx) | Italian offers observed roughly €4,240–€5,230 including VAT | Italian price comparison; volatile |
+| [Idealo Germany RTX PRO 6000 Blackwell](https://www.idealo.de/preisvergleich/OffersOfProduct/206328547_-rtx-pro-6000-blackwell-nvidia.html) | EU offers from approximately €14,890 including shipping | EU price comparison; volatile |
 
 ## Cloud
 
@@ -53,3 +55,7 @@ rates and regional stock are not included unless stated.
   purchase price.
 - No throughput number is treated as an acceptance result until measured on the
   target models, context lengths and concurrency.
+- BOM totals are planning ranges, not purchase orders. A quote is required for
+  the final seller, warranty, delivery date and VAT treatment.
+- Energy TCO uses an explicit €0.30/kWh assumption and must be recalculated with
+  the team’s actual business tariff.
