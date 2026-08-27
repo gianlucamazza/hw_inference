@@ -16,6 +16,8 @@ where the source exposes them. Retail prices and availability are volatile.
 | [Trovaprezzi RTX 5060 Ti 16 GB](https://www.trovaprezzi.it/prezzo_schede-grafiche_nvidia_geforce_rtx_5060_ti_16gb.aspx) | Italian 16 GB offers from approximately €680 | Italian price comparison; volatile |
 | [Trovaprezzi RTX 5070 Ti 16 GB](https://www.trovaprezzi.it/prezzo_schede-grafiche_rtx_5070_ti_16.aspx) | Italian 16 GB offers from approximately €1,017 | Italian price comparison; volatile |
 | [Trovaprezzi RTX 5090 32 GB](https://www.trovaprezzi.it/prezzo_schede-grafiche_rtx_5090_32.aspx) | Italian offers observed roughly €4,240–€5,230 including VAT | Italian price comparison; volatile |
+| [Idealo Italy RTX 5090](https://www.idealo.it/cat/16073F106540549/schede-video.html) | Current comparison confirms 32 GB class and seller-dependent offers | EU price comparison; volatile |
+| [GEB Informatica RTX 5090 Gaming OC](https://www.gebinformatica.it/prodotto/gigabyte-rtx-5090-gaming-oc-32gb?action=genpdf&id=578575) | Example single-seller listing observed at €3,798.99 IVA inclusa | Seller listing; availability and price volatile |
 | [Idealo Germany RTX PRO 6000 Blackwell](https://www.idealo.de/preisvergleich/OffersOfProduct/206328547_-rtx-pro-6000-blackwell-nvidia.html) | EU offers from approximately €14,890 including shipping | EU price comparison; volatile |
 
 ## Cloud

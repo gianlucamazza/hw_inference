@@ -3,7 +3,9 @@
 **Scope:** Italy/EU · 3–6 users · coding assistants, internal RAG and light
 automation  
 **Snapshot date:** 2026-08-27  
-**Status:** market assessment + procurement appendix
+**Status:** quote-ready shortlist + procurement appendix
+**Initial capex ceiling:** €9,000 IVA inclusa, excluding subscriptions and
+financing
 
 ## Executive summary
 
@@ -110,6 +112,47 @@ landed cost.
 The evidence confidence describes the purchase signal, not the technical
 capability: an official specification can be high-confidence while a live
 retailer price remains volatile.
+
+### Quote-ready shortlist under €9,000
+
+These are procurement targets, not purchase quotes. A configuration is eligible
+only when one EU seller confirms the complete landed price, warranty, delivery
+date and power requirements in writing.
+
+| Candidate | Target configuration | Planning ceiling | Role in decision | Hard gate |
+| --- | --- | ---: | --- | --- |
+| **A — CUDA performance** | RTX 5090 32 GB, 128 GB RAM, 2–4 TB NVMe, sustained-load case/cooling, 1,200–1,600 W PSU | **€9,000** | Default choice for fast 7B–32B coding/RAG | Quote must include validated PSU/connectors, thermals and 2-year warranty |
+| **B — lower-cost pilot** | RTX 5060 Ti 16 GB, 64 GB RAM, 1–2 TB NVMe, quality PSU/cooling | **€2,600** | Time-boxed validation for 7B–14B models | Do not approve if long context or two active users is required |
+| **C — compact alternative** | DGX Spark 128 GB, 4 TB NVMe, UPS/network allowance | **€6,000** | Quiet, memory-heavy alternative when CUDA throughput is secondary | Confirm stock, delivery and supported runtime before approval |
+
+Candidate A is the recommended quote request. Candidate B is the fallback when
+the team is validating demand rather than buying for daily performance. Candidate
+C is not a drop-in CUDA workstation equivalent and must pass a software-stack
+compatibility check.
+
+#### Purchase gate
+
+Approve a quote only if all of the following are true:
+
+- total landed cost is at or below €9,000 IVA inclusa;
+- the exact GPU SKU and memory capacity are stated;
+- the seller states warranty, return terms and delivery date;
+- PSU, power connector, chassis clearance and sustained cooling are documented;
+- the quote includes 128 GB system RAM and 2–4 TB NVMe for Candidate A;
+- no claim relies on launch MSRP or an unavailable listing;
+- the supplier accepts an invoice suitable for the team’s VAT treatment.
+
+Reject or defer the purchase if the quote is incomplete, the GPU is unavailable,
+the total exceeds the ceiling, or the team cannot operate the system safely at
+sustained load.
+
+#### Quote request template
+
+Request the following fields for each candidate: seller and legal entity, SKU
+and manufacturer part number, GPU VRAM, CPU and motherboard, RAM capacity and
+ECC status, NVMe model/capacity, PSU model and connector, case dimensions and
+cooling, operating system, warranty and RMA location, delivery date, shipping,
+VAT treatment, total landed price, and confirmation of Ubuntu/CUDA support.
 
 ### Weighted decision matrix
 
@@ -255,7 +298,8 @@ developer; identify power users from usage data first.
 
 ## Pilot and acceptance criteria
 
-Run a two-week pilot with representative repositories and documents. Record:
+Run a two-week pilot with representative repositories and documents before
+committing to a capacity-tier purchase. Record:
 
 - first-token latency and tokens/second;
 - peak VRAM/unified-memory use;
@@ -265,6 +309,11 @@ Run a two-week pilot with representative repositories and documents. Record:
 - daily requests and estimated monthly hardware/cloud cost;
 - failure recovery after model reload, process restart and GPU exhaustion;
 - data-retention, access-control and audit behaviour.
+
+Store one dated result sheet per candidate with model name, quantization,
+context length, concurrency, prompt size, first-token latency, decode rate,
+peak memory and pass/fail against the agreed threshold. Until that sheet exists,
+the matrix scores remain directional and cannot justify the Capacity tier.
 
 The pilot is successful when:
 

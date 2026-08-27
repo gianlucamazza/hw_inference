@@ -6,12 +6,12 @@ automation.
 
 ## Recommendation in one paragraph
 
-Start with one NVIDIA workstation in the 32 GB VRAM class for fast daily
-development, currently budgeting roughly €6,300–€8,800 for a complete EU build.
-Keep a cloud GPU available for burst workloads, and buy into the 96–128 GB
-memory class only after a pilot proves that model size or concurrency is the
-bottleneck. Use Ollama/Open WebUI for simple internal experimentation and vLLM
-behind an authenticated gateway when the service becomes shared.
+Start with a quote-ready NVIDIA workstation in the 32 GB VRAM class for fast
+daily development, with a hard initial ceiling of €9,000 IVA inclusa. Keep a
+cloud GPU available for burst workloads, and buy into the 96–128 GB memory
+class only after a pilot proves that model size or concurrency is the bottleneck.
+Use Ollama/Open WebUI for simple internal experimentation and vLLM behind an
+authenticated gateway when the service becomes shared.
 
 ## Documents
 

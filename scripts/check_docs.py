@@ -14,7 +14,15 @@ ROOT = Path(__file__).resolve().parents[1]
 DOCS = (ROOT / "README.md", ROOT / "docs" / "decision-report.md", ROOT / "docs" / "sources.md")
 URL_RE = re.compile(r"https?://[^)\s>]+")
 LOCAL_RE = re.compile(r"\[[^\]]+\]\(([^)]+)\)")
-REPORT_REQUIRED = ("# Decision report", "Snapshot date:", "## Procurement BOMs")
+REPORT_REQUIRED = (
+    "# Decision report",
+    "Snapshot date:",
+    "Initial capex ceiling:",
+    "## Procurement BOMs",
+    "### Quote-ready shortlist under €9,000",
+    "#### Purchase gate",
+    "#### Quote request template",
+)
 
 
 def check_local_links(errors: list[str]) -> None:
@@ -36,6 +44,48 @@ def check_required_content(errors: list[str]) -> None:
     sources = (ROOT / "docs" / "sources.md").read_text(encoding="utf-8")
     if "# Sources and verification log" not in sources:
         errors.append("sources.md: missing sources heading")
+
+    if "€9,000 IVA inclusa" not in report:
+        errors.append("decision-report.md: missing €9,000 IVA-inclusa ceiling")
+
+    # Keep the quote-ready shortlist bounded by its stated initial ceiling.
+    shortlist = report.split("### Quote-ready shortlist under €9,000", 1)[-1]
+    for candidate in ("A — CUDA performance", "B — lower-cost pilot", "C — compact alternative"):
+        if candidate not in shortlist:
+            errors.append(f"decision-report.md: missing shortlist candidate {candidate!r}")
+
+
+def _euro_values(text: str) -> list[float]:
+    values: list[float] = []
+    for match in re.finditer(r"€([\d.,]+)(?:–€([\d.,]+))?", text):
+        values.extend(
+            float(value.replace(".", "").replace(",", ""))
+            for value in match.groups()
+            if value
+        )
+    return values
+
+
+def check_bom_arithmetic(errors: list[str]) -> None:
+    report = (ROOT / "docs" / "decision-report.md").read_text(encoding="utf-8")
+    section = report.split("### Component-level BOM", 1)
+    if len(section) != 2:
+        errors.append("decision-report.md: missing component-level BOM section")
+        return
+
+    for label in ("Entry pilot", "Recommended"):
+        row = next((line for line in section[1].splitlines() if f"| {label} |" in line), "")
+        values = _euro_values(row)
+        if len(values) < 14:
+            errors.append(f"decision-report.md: cannot validate BOM arithmetic for {label}")
+            continue
+        component_min = sum(values[index] for index in range(0, 12, 2))
+        component_max = sum(values[index] for index in range(1, 12, 2))
+        total_min, total_max = values[-2:]
+        if abs(component_min - total_min) > 50 or abs(component_max - total_max) > 50:
+            errors.append(
+                f"decision-report.md: BOM total does not match components for {label}"
+            )
 
 
 def check_external_links(warnings: list[str], errors: list[str]) -> None:
@@ -70,6 +120,7 @@ def main() -> int:
     if not missing:
         check_local_links(errors)
         check_required_content(errors)
+        check_bom_arithmetic(errors)
         if args.online:
             check_external_links(warnings, errors)
 
