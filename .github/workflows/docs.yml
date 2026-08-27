@@ -63,7 +63,7 @@ jobs:
           test "${pages:-0}" -gt 0
           pdftotext "$pdf" - | grep -Fq "Executive summary"
           pdftotext "$pdf" - | grep -Fq "Weighted decision matrix"
-          sha256sum -c dist/SHA256SUMS
+          (cd dist && sha256sum -c SHA256SUMS)
 
       - name: Upload CI artifact
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
