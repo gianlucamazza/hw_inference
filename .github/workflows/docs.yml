@@ -47,8 +47,11 @@ jobs:
           tar --sort=name --owner=0 --group=0 --mtime='UTC 1970-01-01' \
             -czf "dist/hw_inference-${RELEASE_TAG}-sources.tar.gz" \
             README.md docs/
-          sha256sum "dist/hw_inference-${RELEASE_TAG}.pdf" \
-            "dist/hw_inference-${RELEASE_TAG}-sources.tar.gz" > dist/SHA256SUMS
+          (
+            cd dist
+            sha256sum "hw_inference-${RELEASE_TAG}.pdf" \
+              "hw_inference-${RELEASE_TAG}-sources.tar.gz" > SHA256SUMS
+          )
 
       - name: Verify PDF
         env:
